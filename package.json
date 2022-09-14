@@ -1,0 +1,14 @@
+{
+  "name": "bch_business_helper",
+  "version": "0.0.1",
+  "description": "facilita el calculo de tasas de cambio para adoptar el cobro en bitcoin cash en los negocios",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "js"
+  ],
+  "author": "devperate",
+  "license": "MIT"
+}
