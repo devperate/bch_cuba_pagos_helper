@@ -13,7 +13,7 @@ async function updateBCHUSDTValue() {
 	const price = await fetchBCHUSDTPrice();
 	document.getElementById(
 		"bch-binance-price"
-	).textContent = `BCHUSDT - ${price}`;
+	).textContent = `BCHUSDT: ${price}`;
 }
 
 updateBCHUSDTValue();
@@ -42,14 +42,24 @@ async function updateUSDTCUPValue() {
 	document.getElementById("usdt_cup_value").value = price;
 }
 
-updateUSDTCUPValue();
+var autoUpdateUSDTCUPvalue = true;
+
+const _conf = JSON.parse(localStorage.getItem("usdt_cup_value"));
+if (!_conf.auto) {
+	document.getElementById("usdt_cup_value").removeAttribute("disabled");
+	autoUpdateUSDTCUPvalue = false;
+	document.getElementById("USDTCUP_checkbox").checked = false;
+	document.getElementById("usdt_cup_value").value = _conf.value;
+}else{
+	updateUSDTCUPValue();
+}
+document.getElementById("descuento").value = localStorage.getItem("descuento");
 
 var intervalID1 = setInterval(myCallback1, 60000 * 15); //15 minutos
-var autoUpdateUSDTCUPvalue = true;
 
 async function myCallback1() {
 	if (autoUpdateUSDTCUPvalue) updateUSDTCUPValue();
-	//console.log("updated");
+	//console.log("updateUSDTCUPValue updated");
 }
 
 document.getElementById("USDTCUP_checkbox").addEventListener(
@@ -62,21 +72,45 @@ document.getElementById("USDTCUP_checkbox").addEventListener(
 				.getElementById("usdt_cup_value")
 				.removeAttribute("disabled");
 			autoUpdateUSDTCUPvalue = false;
+
+			const usdt_cup_value =
+				document.getElementById("usdt_cup_value").value;
+			localStorage.setItem(
+				"usdt_cup_value",
+				JSON.stringify({ auto: false, value: usdt_cup_value })
+			);
 		} else {
 			document
 				.getElementById("usdt_cup_value")
 				.setAttribute("disabled", "");
 			autoUpdateUSDTCUPvalue = true;
 			updateUSDTCUPValue();
+
+			localStorage.setItem(
+				"usdt_cup_value",
+				JSON.stringify({ auto: true, value: 0 })
+			);
 		}
 	},
 	false
 );
 
+document
+	.getElementById("usdt_cup_value")
+	.addEventListener("change", function () {
+		localStorage.setItem(
+			"usdt_cup_value",
+			JSON.stringify({ auto: false, value: this.value })
+		);
+	});
+
+document.getElementById("descuento").addEventListener("change", function () {
+	localStorage.setItem("descuento", this.value);
+});
+
 document.getElementById("calcular").addEventListener(
 	"click",
-	function () {
-		console.log("asd");
+	function () {		
 		const usdt_cup_value = Number(
 			document.getElementById("usdt_cup_value").value
 		);
@@ -91,6 +125,9 @@ document.getElementById("calcular").addEventListener(
 			(cup_a_cobrar / usdt_cup_value) * descuento;
 		document.getElementById("usdt_a_cobrar").value =
 			Math.round(usdt_a_cobrar * 100) / 100;
+
+		const usdt_en_cup_a_cobrar = Math.round(usdt_a_cobrar * usdt_cup_value * 100) / 100;
+		document.getElementById("usd_cup_a_cobrar").innerText = usdt_en_cup_a_cobrar + " cup";
 	},
 	false
 );

@@ -1,93 +1,86 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="devperate">
-    <meta name="generator" content="Hugo 0.88.1">
-    <title>BCH Payments Helper</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="bch Payments Helper">
+		<meta name="author" content="devperate">
+		<meta name="generator" content="Hugo 0.88.1">
+		<title>BCH Payments Helper</title>
 
-    <!-- Bootstrap core CSS -->
-<link href="bootstrap.min.css" rel="stylesheet">
+		<!-- Bootstrap core CSS -->
+		<link href="bootstrap.min.css" rel="stylesheet">
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
+		<!-- Custom styles for this template -->
+		<link href="form-validation.css" rel="stylesheet">
+	</head>
+	
+	<body class="bg-light">
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-    <link href="form-validation.css" rel="stylesheet">
-  </head>
-  <body class="bg-light">
-    
-<div class="container">
-  <main>
-	<div style="float: right;">
-		<img style="float: inline-start;" class="" src="binance-logo.svg" alt="" width="35" height="20">
-		<h6 id="bch-binance-price" style="float: inline-end;">BCHUSDT -</h6>
-	</div>
-    <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="bitcoin-cash-circle.svg" alt="" width="72" height="57">
-      <h2>BCH Pagos Helper</h2>
+<main class="container">
+  <div class="d-flex align-items-center p-3 my-3" style="display: flex; justify-content: flex-end">
+    <img src="binance-logo.svg" alt="" width="35" height="20">
+    <div class="lh-1">
+	  <h6 class="h6 mb-0 lh-1" id="bch-binance-price">BCHUSDT:</h6>
     </div>
+  </div>
 
-    <div class="row g-5">
-      <div class="col-md-7 col-lg-8">
-          <div class="row g-3">
-            <div class="col-sm-6">
-			<div class="col">
-              <label style="float: inline-start; margin-right: 6px; margin-top: 6px;" for="usdt_cup_value" class="form-label">USDT/CUP:</label>
-              <input id="usdt_cup_value" style="width: 100px !important; margin-left: 10px !important;" type="number" class="form-control" value="" required disabled>
-              <div class="invalid-feedback">
-                Es necesario un valor de precio valido en el campo de USDT/CUP.
-              </div>
-			</div>
-			<div class="col">
-				<input type="checkbox" class="form-check-input" id="USDTCUP_checkbox" value="precio_auto" checked>
-				<label class="form-check-label" for="exampleCheck1">auto</label>
-			</div>
-            </div>
+  <div class="row">
+	<div class="col text-center">
+    	<img class="d-block mx-auto mb-4" src="bitcoin-cash-circle.svg" alt="" width="72" height="57">
+		<h2>BCH Pagos Helper</h2>
+	</div>
+  </div>
 
-            <div class="col-sm-6">
-              <label style="float: inline-start; margin-right: 6px; margin-top: 6px;" for="descuento" class="form-label">% descuento:</label>
-              <input style="width: 100px !important; margin-left: 10px !important;" type="number" class="form-control" id="descuento" placeholder="" value="10" required>
-              <div class="invalid-feedback">
-                Es necesario un valor de % de descuento.
-              </div>
-            </div>
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
 
-			<div class="col-sm-6">
-				<label style="float: inline-start; margin-right: 6px; margin-top: 6px;" for="cup_a_cobrar" class="form-label">CUP a cobrar:</label>
-				<input style="width: 100px !important; margin-left: 10px !important;" type="number" class="form-control" id="cup_a_cobrar" placeholder="" value="" required>
-				<label style="float: inline-start; margin-right: 6px; margin-top: 6px;" for="usdt_a_cobrar" class="form-label">valor en USDT:</label>
-				<input style="width: 100px !important; margin-left: 10px !important;" type="number" class="form-control" id="usdt_a_cobrar" placeholder="" value="" disabled>
-				<div class="invalid-feedback">
-				  Es necesario un valor a cobrar
-				</div>
-			  </div>
-
-          <button id="calcular" class="w-100 btn btn-primary btn-lg">Calcular</button>
-
-		  <hr class="my-4">
+    <div class="d-flex pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong style="margin-top: 13px;" class="text-black-dark">USDT/CUP:</strong>
+		  <input id="usdt_cup_value" style="margin-left: 10px !important;" type="number" class="form-control" value="" required disabled>
+		  <div style="margin-left: 10px !important;" class="col">
+			<input type="checkbox" class="form-check-input" id="USDTCUP_checkbox" value="precio_auto" checked>
+			<label class="form-check-label" for="exampleCheck1">auto</label>
+		</div>
+        </div>
       </div>
     </div>
-  </main>
 
-  <footer class="text-center text-small">
+    <div class="d-flex pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+			<strong class="text-black-dark" style="margin-top: 11px;">descuento:</strong>
+			<input style="margin-left: 10px !important;" type="number" class="form-control" id="descuento" placeholder="" value="5" required>
+			<strong class="text-black-dark" style="margin-left: 5px !important;margin-top: 11px;">%</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark" style="margin-top: 3px;">CUP a cobrar:</strong>
+		  <input style="margin-left: 10px !important;" type="number" class="form-control" id="cup_a_cobrar" placeholder="" value="" required>
+        </div>
+      </div>
+    </div>
+	<button style="margin-top: 11px;" id="calcular" class="w-100 btn btn-primary btn-lg">Calcular</button>	
+  </div>
+
+  <div class="d-flex pt-3">
+	<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+	  <div class="d-flex justify-content-between">
+		<strong class="text-gray-dark" style="margin-top: 3px;">valor en USDT:</strong>
+		<input style="margin-left: 10px !important;" type="number" class="form-control" id="usdt_a_cobrar" placeholder="" value="" disabled>
+		<strong class="text-gray-dark text-muted" style="margin-left: 5px;" id="usd_cup_a_cobrar"></strong>
+	  </div>
+	</div>
+  </div>
+
+</main>
+
+<footer style="margin-top: 30px;" class="text-center text-small">
     <ul class="list-inline">
 		
 		<a href="https://www.instagram.com/bchcuba/"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
@@ -100,11 +93,9 @@
 			</svg>
 		</a>
     </ul>
-  </footer>
-</div>
+</footer>
 
-
-    <script src="bootstrap.bundle.min.js"></script>
+	<script src="bootstrap.bundle.min.js"></script>
 	<script src="form-validation.js"></script>
 	<script type="module" src="index.js"></script>
   </body>
