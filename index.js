@@ -45,12 +45,12 @@ async function updateUSDTCUPValue() {
 var autoUpdateUSDTCUPvalue = true;
 
 const _conf = JSON.parse(localStorage.getItem("usdt_cup_value"));
-if (!_conf.auto) {
+if (_conf && !_conf?.auto) {
 	document.getElementById("usdt_cup_value").removeAttribute("disabled");
 	autoUpdateUSDTCUPvalue = false;
 	document.getElementById("USDTCUP_checkbox").checked = false;
 	document.getElementById("usdt_cup_value").value = _conf.value;
-}else{
+} else {
 	updateUSDTCUPValue();
 }
 document.getElementById("descuento").value = localStorage.getItem("descuento");
@@ -110,7 +110,7 @@ document.getElementById("descuento").addEventListener("change", function () {
 
 document.getElementById("calcular").addEventListener(
 	"click",
-	function () {		
+	function () {
 		const usdt_cup_value = Number(
 			document.getElementById("usdt_cup_value").value
 		);
@@ -126,8 +126,10 @@ document.getElementById("calcular").addEventListener(
 		document.getElementById("usdt_a_cobrar").value =
 			Math.round(usdt_a_cobrar * 100) / 100;
 
-		const usdt_en_cup_a_cobrar = Math.round(usdt_a_cobrar * usdt_cup_value * 100) / 100;
-		document.getElementById("usd_cup_a_cobrar").innerText = usdt_en_cup_a_cobrar + " cup";
+		const usdt_en_cup_a_cobrar =
+			Math.round(usdt_a_cobrar * usdt_cup_value * 100) / 100;
+		document.getElementById("usd_cup_a_cobrar").innerText =
+			usdt_en_cup_a_cobrar + " cup";
 	},
 	false
 );
