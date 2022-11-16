@@ -1,19 +1,18 @@
-//https://api.binance.com/api/v3/ticker/price?symbol=BCHUSDT
-const binance_url =
-	"https://api.binance.com/api/v3/ticker/price?symbol=BCHUSDT";
+//https://api.kucoin.com/api/v1/prices?currencies=BCH
+const binance_url = "https://api.kucoin.com/api/v1/prices?currencies=BCH";
 
 async function fetchBCHUSDTPrice() {
 	const response = await fetch(binance_url);
 	const api_data = await response.json();
-	const price = Math.round(api_data.price * 100) / 100;
+	const price = Math.round(api_data.data.BCH * 100) / 100;
 	return price;
 }
 
 async function updateBCHUSDTValue() {
 	const price = await fetchBCHUSDTPrice();
 	document.getElementById(
-		"bch-binance-price"
-	).textContent = `BCHUSDT: ${price}`;
+		"bch-kucoin-price"
+	).textContent = `BCHUSD: ${price}`;
 }
 
 updateBCHUSDTValue();
@@ -27,19 +26,28 @@ async function myCallback() {
 
 //https://api.cambiocuba.money/api/v1/x-rates?date_from=2022-09-10%2000:00:00&date_to=2022-09-11%2023:59:59&offer=Venta
 const cambiocuba_url =
-	"https://api.cambiocuba.money/api/v1/x-rates?offer=Venta";
+	"https://api.cambiocuba.money/api/v1/x-rates?token=aCY78gC3kWRv1pR7VfgSlg";
 
 async function fetchUSDTCUPPrice() {
 	const response = await fetch(cambiocuba_url);
 	const api_data = await response.json();
 	//console.log(api_data);
-	const price = Math.round(api_data.statistics.USDT_TRC20.avg * 100) / 100;
-	return price;
+	const price_usdt =
+		Math.round(api_data.statistics.USDT_TRC20.avg * 100) / 100;
+	const price_usd = Math.round(api_data.statistics.USD.avg * 100) / 100;
+	return { price_usdt, price_usd };
 }
 
-async function updateUSDTCUPValue() {
-	const price = await fetchUSDTCUPPrice();
-	document.getElementById("usdt_cup_value").value = price;
+async function updateUSDTCUPValue(autoUpdate) {
+	const { price_usdt, price_usd } = await fetchUSDTCUPPrice();
+
+	if (autoUpdate) {
+		document.getElementById("usdt_cup_value").value = price_usdt;
+	}
+
+	document.getElementById(
+		"usd-eltoque-price"
+	).textContent = `USDCUP: ${price_usd}`;
 }
 
 var autoUpdateUSDTCUPvalue = true;
@@ -50,8 +58,10 @@ if (_conf && !_conf?.auto) {
 	autoUpdateUSDTCUPvalue = false;
 	document.getElementById("USDTCUP_checkbox").checked = false;
 	document.getElementById("usdt_cup_value").value = _conf.value;
+
+	updateUSDTCUPValue(autoUpdateUSDTCUPvalue);
 } else {
-	updateUSDTCUPValue();
+	updateUSDTCUPValue(autoUpdateUSDTCUPvalue);
 }
 document.getElementById("descuento").value = localStorage.getItem("descuento");
 
@@ -84,7 +94,7 @@ document.getElementById("USDTCUP_checkbox").addEventListener(
 				.getElementById("usdt_cup_value")
 				.setAttribute("disabled", "");
 			autoUpdateUSDTCUPvalue = true;
-			updateUSDTCUPValue();
+			updateUSDTCUPValue(autoUpdateUSDTCUPvalue);
 
 			localStorage.setItem(
 				"usdt_cup_value",
