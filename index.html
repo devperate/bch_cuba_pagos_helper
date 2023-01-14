@@ -1,107 +1,428 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="bch Payments Helper">
-		<meta name="author" content="devperate">
-		<meta name="generator" content="Hugo 0.88.1">
-		<title>BCH Payments Helper</title>
 
-		<!-- Bootstrap core CSS -->
-		<link href="bootstrap.min.css" rel="stylesheet">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="color-scheme" content="light dark">
+	<meta name="description" content="bch Payments Helper">
+	<meta name="author" content="devperate">
+	<meta name="generator" content="Hugo 0.88.1">
+	<title>BCH Payments Helper</title>
 
-		<!-- Custom styles for this template -->
-		<link href="form-validation.css" rel="stylesheet">
-	</head>
-	
-	<body class="bg-light">
+	<!-- Bootstrap core CSS -->
+	<link href="bootstrap-nightshade.min.css" rel="stylesheet">
+	<style>
+		.body-light {
+			background-color: rgba(0, 0, 0, .1);
+		}
+	</style>
+</head>
 
-<main class="container">
-  <div class="d-flex align-items-center p-3 my-3" style="display: flex; justify-content: flex-end">
-    <img src="kucoin-logo.png" alt="" width="21" height="20">
-    <div class="lh-1">
-	  <h6 class="h6 mb-0 lh-1" id="bch-kucoin-price">BCHUSD:</h6>
-    </div>
-	&nbsp;&nbsp;&nbsp;
-	<img src="eltoque-favicon.png" alt="" width="20" height="20">
-    <div class="lh-1">
-	  <h6 class="h6 mb-0 lh-1" id="usd-eltoque-price">USDCUP:</h6>
-    </div>
-  </div>
+<body class="body-light">
 
-  <div class="row">
-	<div class="col text-center">
-    	<img class="d-block mx-auto mb-4" src="bitcoin-cash-circle.svg" alt="" width="72" height="57">
-		<h2>BCH Pagos Helper</h2>
-	</div>
-  </div>
-
-  <div class="my-3 p-3 bg-body rounded shadow-sm">
-
-    <div class="d-flex pt-3">
-      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-        <div class="d-flex justify-content-between">
-          <strong style="margin-top: 13px;" class="text-black-dark">USDT/CUP:</strong>
-		  <input id="usdt_cup_value" style="margin-left: 10px !important;" type="number" class="form-control" value="" required disabled>
-		  <div style="margin-left: 10px !important;" class="col">
-			<input type="checkbox" class="form-check-input" id="USDTCUP_checkbox" value="precio_auto" checked>
-			<label class="form-check-label" for="exampleCheck1">auto</label>
+	<main class="container">
+		<div class="d-flex align-items-center p-3 my-3" style="display: flex; justify-content: flex-end">
+			<img src="kucoin-logo.png" alt="" width="21" height="20">
+			<div class="lh-1">
+				<h6 class="h6 mb-0 lh-1" id="bch-kucoin-price">BCHUSD:</h6>
+			</div>
+			&nbsp;&nbsp;&nbsp;
+			<img src="eltoque-favicon.png" alt="" width="20" height="20">
+			<div class="lh-1">
+				<h6 class="h6 mb-0 lh-1" id="usd-eltoque-price">USDCUP:</h6>
+			</div>
 		</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="d-flex pt-3">
-      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-        <div class="d-flex justify-content-between">
-			<strong class="text-black-dark" style="margin-top: 11px;">descuento:</strong>
-			<input style="margin-left: 10px !important;" type="number" class="form-control" id="descuento" placeholder="" value="5" required>
-			<strong class="text-black-dark" style="margin-left: 5px !important;margin-top: 11px;">%</strong>
-        </div>
-      </div>
-    </div>
+		<div class="row">
+			<div class="col text-center">
+				<img class="d-block mx-auto mb-4" src="bitcoin-cash-circle.svg" alt="" width="72" height="57">
+				<div class="d-flex justify-content-center">
+					<h2 style="width: auto;">BCH Pagos Helper</h2>
+					<button id="settings_btn" type="button" class="btn btn-outline-secondary" data-bs-toggle="offcanvas"
+						data-bs-target="#offcanvasStart" aria-controls="offcanvasStart"
+						style="border: none; margin-top: -11px;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
+							class="bi bi-gear-fill" viewBox="0 0 16 16">
+							<path
+								d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z">
+							</path>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</div>
 
-    <div class="d-flex pt-3">
-      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-        <div class="d-flex justify-content-between">
-          <strong class="text-gray-dark" style="margin-top: 3px;">CUP a cobrar:</strong>
-		  <input style="margin-left: 10px !important;" type="number" class="form-control" id="cup_a_cobrar" placeholder="" value="" required>
-        </div>
-      </div>
-    </div>
-	<button style="margin-top: 11px;" id="calcular" class="w-100 btn btn-primary btn-lg">Calcular</button>	
-  </div>
+		<div class="my-3 p-3 bg-body rounded shadow-sm">
+			<div class="d-flex pt-3">
+				<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+					<div class="d-flex justify-content-between">
+						<strong style="margin-top: 13px;" class="text-black-dark">USDT/CUP:</strong>
+						<input id="usdt_cup_value" style="margin-left: 10px !important;" type="number"
+							class="form-control" value="" required disabled>
+						<div style="margin-left: 10px !important;" class="col">
+							<input type="checkbox" class="form-check-input" id="USDTCUP_checkbox" value="precio_auto"
+								checked>
+							<label class="form-check-label" for="exampleCheck1">auto</label>
+						</div>
+					</div>
+				</div>
+			</div>
 
-  <div class="d-flex pt-3">
-	<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-	  <div class="d-flex justify-content-between">
-		<strong class="text-gray-dark" style="margin-top: 3px;">valor en USDT:</strong>
-		<input style="margin-left: 10px !important;" type="number" class="form-control" id="usdt_a_cobrar" placeholder="" value="" disabled>
-		<strong class="text-gray-dark text-muted" style="margin-left: 5px;" id="usd_cup_a_cobrar"></strong>
-	  </div>
-	</div>
-  </div>
+			<div class="d-flex pt-3">
+				<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+					<div class="d-flex justify-content-between">
+						<strong class="text-black-dark" style="margin-top: 11px;">descuento:</strong>
+						<input style="margin-left: 10px !important;" type="number" class="form-control" id="descuento"
+							placeholder="" value="5" required>
+						<strong class="text-black-dark" style="margin-left: 5px !important;margin-top: 11px;">%</strong>
+					</div>
+				</div>
+			</div>
 
-</main>
+			<div class="d-flex pt-3">
+				<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+					<div class="d-flex justify-content-between">
+						<strong class="text-gray-dark" style="margin-top: 3px;">CUP a cobrar:</strong>
+						<input style="margin-left: 10px !important;" type="number" class="form-control"
+							id="cup_a_cobrar" placeholder="" value="" required>
+					</div>
+				</div>
+			</div>
+			<div class="d-flex align-items-center">
+				<button style="margin-top: 11px;width: 80%;" id="calcular"
+					class="btn btn-primary btn-lg">Calcular</button>
+				<button style="margin-top: 11px;margin-left: 5px; width: 20%;" type="button" id="qr-cobrar"
+					class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
+					aria-controls="offcanvasTop">
+					<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+						class="bi bi-qr-code" viewBox="0 0 16 16">
+						<path d="M2 2h2v2H2V2Z"></path>
+						<path d="M6 0v6H0V0h6ZM5 1H1v4h4V1ZM4 12H2v2h2v-2Z"></path>
+						<path d="M6 10v6H0v-6h6Zm-5 1v4h4v-4H1Zm11-9h2v2h-2V2Z"></path>
+						<path
+							d="M10 0v6h6V0h-6Zm5 1v4h-4V1h4ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Z">
+						</path>
+						<path d="M7 12h1v3h4v1H7v-4Zm9 2v2h-3v-1h2v-1h1Z"></path>
+					</svg>
+				</button>
+			</div>
+		</div>
 
-<footer style="margin-top: 30px;" class="text-center text-small">
-    <ul class="list-inline">
-		
-		<a href="https://www.instagram.com/bchcuba/"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-			<path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"></path>
-			</svg>
-		</a>
-		<a href="https://t.me/bchCuba">
-			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">
-				<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z"></path>
-			</svg>
-		</a>
-    </ul>
-</footer>
+		<div class="d-flex pt-3">
+			<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+				<div class="d-flex justify-content-between">
+					<strong class="text-gray-dark" style="margin-top: 3px;">valor en USD:</strong>
+					<input style="margin-left: 10px !important;" type="number" class="form-control" id="usdt_a_cobrar"
+						placeholder="" value="" disabled>
+					<strong class="text-gray-dark text-muted" style="margin-left: 5px;" id="usd_cup_a_cobrar"></strong>
+				</div>
+			</div>
+		</div>
 
-	<script src="bootstrap.bundle.min.js"></script>
-	<script src="form-validation.js"></script>
+		<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+			style="width:100%;">
+			<div class="offcanvas-header body-light">
+				<button type="button" class="btn btn-secondary" id="darkmode-button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+						class="bi bi-moon" viewBox="0 0 16 16">
+						<path
+							d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278zM4.858 1.311A7.269 7.269 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.316 7.316 0 0 0 5.205-2.162c-.337.042-.68.063-1.029.063-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286z">
+						</path>
+					</svg>
+				</button>
+				<h5 class="offcanvas-title" id="offcanvasRightLabel">Settings</h5>
+				<button id="settings_close_btn" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			</div>
+
+			<div class="d-flex flex-row" style="width: auto;">
+				<ul class="nav nav-pills nav-flush flex-row mb-auto text-center">
+					<li class="nav-item p-2">
+						<a id="wallet_settings" class="nav-link active py-3 border-bottom rounded-3" data-bs-toggle="collapse" href="#collapse0" role="button" aria-expanded="false" aria-controls="collapse0">
+							<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+								<path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+							</svg>
+						</a>
+					</li>
+					<li class="nav-item p-2">
+						<a id="security_settings" class="nav-link py-3 border-bottom rounded-3" data-bs-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapse1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
+								<path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2zM3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H3z"/>
+							</svg>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<hr class="border opacity-100" style="margin: 0px;">
+
+			<div class="offcanvas-body">
+				
+				<div class="collapse show" id="collapse0">
+					<div class="input-group mb-3">
+						<span class="input-group-text btn btn-primary" id="wallet_name_button">@</span>
+						<input id="wallet_name" type="text" class="form-control" placeholder="Nombre Wallet (Opcional)" aria-label="wallet_name" aria-describedby="wallet_name_button">
+					</div>
+					<div class="input-group has-validation">
+						<button id="validate_bch_recipient_address_button" class="input-group-text btn btn-primary">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-wallet" viewBox="0 0 16 16">
+								<path
+									d="M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5V3zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a1.99 1.99 0 0 1-1-.268zM1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1z" />
+							</svg>
+						</button>
+						<div class="form-floating is-invalid" style="width: 88% !important;">
+							<textarea type="text" class="form-control is-invalid" id="bch_recipient_address"
+								placeholder="bitcoincash:..." required></textarea>
+							<label for="bch_recipient_address" class="form-label">Direccion de destino</label>
+						</div>
+						<div id="feedback_div_label_bch_recipient_address" class="invalid-feedback">
+							Escribe una direccion de bitcoincash valida
+						</div>
+					</div>
+				</div>
+
+				<div class="collapse text-center" id="collapse1">
+					<form id="replace_pin_form" class="was-validated">
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="validationTooltipPin_0Prepend">&nbsp;&nbsp;&nbsp;insertar</span>
+							<input class="form-control" type="password" id="replace_pin_0" placeholder="" required />
+							<div class="invalid-feedback">
+								Por favor introduzca un PIN.
+							</div>
+						</div>
+	
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="validationTooltipPin_1Prepend">confirmar</span>
+							<input class="form-control" type="password" id="replace_pin_1" placeholder="" required />
+							<div class="invalid-feedback">
+								Por favor repita el PIN.
+							</div>
+						</div>
+						<div id="pass_strength" class="progress" role="progressbar" aria-label="progressbar bar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style="height: 3px;">
+							<div class="progress-bar bg-danger" style="width: 1%"></div>
+						</div>
+					</form>
+					<button id="replace_pin_btn" style="margin-top: 18px;margin-left: 5px; width: 50%;" type="button" class="btn btn-success" disabled>
+						Aceptar
+					</button>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="offcanvas offcanvas-top" style="width:100%; height: 100%;" tabindex="-1" id="offcanvasTop"
+			aria-labelledby="offcanvasTopLabel">
+			<div class="offcanvas-header">
+				<h5 id="countdown_timer" class="offcanvas-title" id="offcanvasTopLabel">10:00</h5>
+				<button id="qr-offcanvas-close" type="button" class="btn-close" data-bs-dismiss="offcanvas"
+					aria-label="Close"></button>
+			</div>
+			<div id="div_pago_qr" class="offcanvas-body text-center">
+				<div class="body-light">
+					<img class="img-fluid" src="bch-main-logo.png" style="max-width: 300px;">
+				</div>
+				<hr class="border border-success opacity-75">
+				<div class="img-fluid" id="canvas-qr"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><h6>Generando QR!</h6></div>
+				<hr class="border border-success opacity-75">
+				<h6 id="values_to_pay_info_text" style="width: auto;color:lightgray"></h6>
+				<h2 style="width: auto;">Escanea para pagar!</h2>
+			</div>
+			<div id="div_pago_completado" class="offcanvas-body text-center" hidden="true">
+				<hr class="border border-success opacity-75">
+				<img class="img-fluid" src="Bitcoin_Cash_Logo_Animation_cropped.gif" style="max-width: 500px;">
+				<hr class="border border-success opacity-75">
+				<h2 style="width: auto;">Pago recibido! Gracias.</h2>
+				<div class="d-grid gap-2 col-4 mx-auto">
+					<button id="listo_pago_recibido_btn" type="button" data-bs-dismiss="offcanvas"
+						class="btn btn-success">Listo</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom"
+			aria-labelledby="offcanvasBottomLabel" style="width:100%; height: 100%;">
+			<div class="offcanvas-header">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-heart" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5Zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0ZM14 14V5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1ZM8 7.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
+				</svg>
+				<h6 class="offcanvas-title" id="offcanvasBottomLabel">Donar al desarrollo de esta app</h6>
+				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			</div>
+			<div class="offcanvas-body small text-center">
+				<div class="img-fluid" id="canvas-qr-donate"></div>
+				<hr class="border border-success opacity-75">
+				<h6 id="donate_address" class="text-break" style="color:lightgray;"></h6>
+				<a id="donar_desde_wallet_button" style="margin-top: 11px;margin-left: 5px; width: 80%;" type="button" class="btn btn-outline-success">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+						<path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+					</svg>
+					Enviar desde BCH wallet
+				</a>
+			</div>
+		</div>
+
+		<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasStart" data-bs-backdrop="false" aria-labelledby="offcanvasStartLabel" style="width:100%; height: 100%;">
+			<div class="offcanvas-header">
+				<h5 class="offcanvas-title" id="offcanvasStartLabel">PIN Anti Intrusos</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			</div>
+			<div class="offcanvas-body small text-center">
+				<form id="insert_pin_form" class="was-validated">
+					<div class="alert alert-primary d-flex align-items-center" role="alert">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+							<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+						</svg>
+						<div>Antes de continuar es necesario que establezca un PIN de seguridad</div>
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="validationTooltipPin_0Prepend">&nbsp;&nbsp;&nbsp;insertar</span>
+						<input class="form-control" type="password" id="pin_0" placeholder="" required />
+						<div class="invalid-feedback">
+							Por favor introduzca un PIN.
+						</div>
+					</div>
+
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="validationTooltipPin_1Prepend">confirmar</span>
+						<input class="form-control" type="password" id="pin_1" placeholder="" required />
+						<div class="invalid-feedback">
+							Por favor repita el PIN.
+						</div>
+					</div>
+					<div id="pass_strength" class="progress" role="progressbar" aria-label="progressbar bar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style="height: 3px;">
+						<div class="progress-bar bg-danger" style="width: 1%"></div>
+					</div>
+				</form>
+				
+				<form id="check_pin_form" class="needs-validation" hidden="true">
+					<div class="input-group mb-3 has-validation">
+						<span class="input-group-text" id="validationTooltipPin_0Prepend">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-lock-fill" viewBox="0 0 16 16">
+								<path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zm0 5a1.5 1.5 0 0 1 .5 2.915l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99A1.5 1.5 0 0 1 8 5z"/>
+							</svg>
+						</span>
+						<input class="form-control" type="password" id="pin_2" placeholder="" required />
+						<div class="invalid-feedback">
+							Por favor introduzca su PIN.
+						</div>
+					</div>
+				</form>
+				<button id="pin_btn" style="margin-top: 18px;margin-left: 5px; width: 50%;" type="button" class="btn btn-success" disabled>
+					Aceptar
+				</button>
+			</div>
+		</div>
+
+		<div class="toast-container position-absolute top-0 end-0 p-3" style="z-index: 1090">
+			<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+						<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+					</svg>
+				<strong class="me-auto">BCH Pagos Helper</strong>
+				<small>ahora</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+			</div>
+			<div class="toast-body">
+				Se ha guardado el nuevo PIN!
+			</div>
+			</div>
+		</div>
+
+	</main>
+
+	<footer style="margin-top: 30px;" class="text-center text-small">
+		<ul class="list-inline">
+			<a href="https://www.instagram.com/bchcuba/"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+					fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+					<path
+						d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z">
+					</path>
+				</svg>
+			</a>
+			<a href="https://t.me/bchCuba">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+					class="bi bi-telegram" viewBox="0 0 16 16">
+					<path
+						d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z">
+					</path>
+				</svg>
+			</a>
+			<a id="donar" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+					class="bi bi-currency-bitcoin" viewBox="0 0 16 16">
+					<path
+						d="M5.5 13v1.25c0 .138.112.25.25.25h1a.25.25 0 0 0 .25-.25V13h.5v1.25c0 .138.112.25.25.25h1a.25.25 0 0 0 .25-.25V13h.084c1.992 0 3.416-1.033 3.416-2.82 0-1.502-1.007-2.323-2.186-2.44v-.088c.97-.242 1.683-.974 1.683-2.19C11.997 3.93 10.847 3 9.092 3H9V1.75a.25.25 0 0 0-.25-.25h-1a.25.25 0 0 0-.25.25V3h-.573V1.75a.25.25 0 0 0-.25-.25H5.75a.25.25 0 0 0-.25.25V3l-1.998.011a.25.25 0 0 0-.25.25v.989c0 .137.11.25.248.25l.755-.005a.75.75 0 0 1 .745.75v5.505a.75.75 0 0 1-.75.75l-.748.011a.25.25 0 0 0-.25.25v1c0 .138.112.25.25.25L5.5 13zm1.427-8.513h1.719c.906 0 1.438.498 1.438 1.312 0 .871-.575 1.362-1.877 1.362h-1.28V4.487zm0 4.051h1.84c1.137 0 1.756.58 1.756 1.524 0 .953-.626 1.45-2.158 1.45H6.927V8.539z" />
+				</svg>
+			</a>
+		</ul>
+	</footer>
+
+	<script src="bootstrap.bundle.min.v5.1.3.js"></script>
+	<script src="darkmode.min.js"></script>
 	<script type="module" src="index.js"></script>
-  </body>
+	<script src="minimal-slp-wallet.min.module.v5.6.0.js"></script>
+	<script src="qr-code-styling.min.module.v1.6.0.js"></script>
+	<script src="umd.module.v2.0.7.js"></script>
+	<script src="node_modules/jssha/dist/sha256.js"></script>
+	<script src="node_modules_bundle.js"></script>
+	<script>
+		document.querySelector("#darkmode-button").onclick = function (e) {
+			darkmode.toggleDarkMode();
+		}
+	</script>
+	<script type="module">
+		const bch_donations_address = 'bitcoincash:qq0n0ea0pktcrures2f04deq8psk69nrfv52s7qku5';
+
+		document.getElementById("donate_address").innerText = bch_donations_address;
+		document.getElementById("donar_desde_wallet_button").setAttribute("href", bch_donations_address);
+		
+		let screen_size = 300;
+		if (window.innerWidth < window.innerHeight) {
+			screen_size = window.innerWidth - window.innerWidth * 0.35;
+		} else {
+			screen_size = window.innerHeight - window.innerHeight * 0.35;
+		}
+		
+		let color_scheme = localStorage.getItem("bs.prefers-color-scheme");
+		document.getElementById("donar").onclick = async function(){
+			document.getElementById("canvas-qr-donate").innerHTML = "";
+			color_scheme = localStorage.getItem("bs.prefers-color-scheme");
+			
+			const qrCode = donateQr();
+			await qrCode.append(document.getElementById("canvas-qr-donate"));
+
+			document.getElementById("canvas-qr-donate").onclick = reverseQrColor;
+		}
+
+		function donateQr(){
+			const qrCode = new QRCodeStyling({
+				width: screen_size,
+				height: screen_size,
+				type: "svg",
+				data: bch_donations_address,
+				image: "bitcoin-cash-cuba.png",
+				imageOptions: {
+					hideBackgroundDots: false,
+				},
+				cornersDotOptions: {
+					type: "dot",
+				},
+				cornersSquareOptions: {
+					type: "extra-rounded",
+				},
+				dotsOptions: {
+					color: color_scheme == "light" ? "#2f2f2f" : "#fff",
+					type: "extra-rounded",
+				},
+				backgroundOptions: {
+					color: color_scheme == "light" ? "#fff" : "#2f2f2f",
+				},
+			});
+
+			return qrCode;
+		}
+	</script>
+</body>
+
 </html>

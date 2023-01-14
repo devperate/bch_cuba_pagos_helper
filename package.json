@@ -1,14 +1,27 @@
 {
   "name": "bch_business_helper",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "facilita el calculo de tasas de cambio para adoptar el cobro en bitcoin cash en los negocios",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pre-build": "npm i -g browserify & browserify pre-build.js -o node_modules_bundle.js"
   },
   "keywords": [
     "js"
   ],
   "author": "devperate",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devperate/bch_cuba_pagos_helper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devperate/bch_cuba_pagos_helper/issues"
+  },
+  "homepage": "https://github.com/devperate/bch_cuba_pagos_helper#readme",
+  "dependencies": {
+    "electrum-cash": "^2.0.10",
+    "jssha": "^3.3.0"
+  }
 }
