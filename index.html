@@ -412,11 +412,11 @@
 					type: "extra-rounded",
 				},
 				dotsOptions: {
-					color: color_scheme == "light" ? "#2f2f2f" : "#fff",
+					color: color_scheme == "light" || !!!color_scheme ? "#2f2f2f" : "#fff",
 					type: "extra-rounded",
 				},
 				backgroundOptions: {
-					color: color_scheme == "light" ? "#fff" : "#2f2f2f",
+					color: color_scheme == "light" || !!!color_scheme ? "#fff" : "#2f2f2f",
 				},
 			});
 

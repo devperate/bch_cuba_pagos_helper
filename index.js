@@ -303,7 +303,9 @@ document
 		await resetPaymentScreen();
 	});
 async function resetPaymentScreen() {
-	document.getElementById("canvas-qr").innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><h6>Generando QR!</h6>`;
+	document.getElementById(
+		"canvas-qr"
+	).innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><h6>Generando QR!</h6>`;
 
 	clearInterval(timer);
 	timer = null;
@@ -502,18 +504,16 @@ async function watchForMatchingPayment(
 	);
 }
 
-document
-	.getElementById("settings_btn")
-	.addEventListener("click", function () {
-		const HPIN = localStorage.getItem("hash_pin");
-		if (!!HPIN) {
-			document.getElementById("pin_btn").removeAttribute("disabled");
-			document
-				.querySelector("#insert_pin_form")
-				.setAttribute("hidden", "true");
-			document.getElementById("check_pin_form").removeAttribute("hidden");
-		}
-	});
+document.getElementById("settings_btn").addEventListener("click", function () {
+	const HPIN = localStorage.getItem("hash_pin");
+	if (!!HPIN) {
+		document.getElementById("pin_btn").removeAttribute("disabled");
+		document
+			.querySelector("#insert_pin_form")
+			.setAttribute("hidden", "true");
+		document.getElementById("check_pin_form").removeAttribute("hidden");
+	}
+});
 
 document.getElementById("pin_0").addEventListener("input", function () {
 	validatePin();
@@ -529,21 +529,27 @@ document.getElementById("replace_pin_1").addEventListener("input", function () {
 });
 
 function validatePin(pin_key = "") {
-	const pin_0 = document.getElementById(pin_key+"pin_0").value;
-	const pin_1 = document.getElementById(pin_key+"pin_1").value;
+	const pin_0 = document.getElementById(pin_key + "pin_0").value;
+	const pin_1 = document.getElementById(pin_key + "pin_1").value;
 
 	check4StrongPin(pin_0, pin_1);
 
 	if (pin_0 !== pin_1) {
-		document.getElementById(pin_key+"pin_1").classList.remove("is-valid");
-		document.getElementById(pin_key+"pin_1").classList.add("is-invalid");
+		document.getElementById(pin_key + "pin_1").classList.remove("is-valid");
+		document.getElementById(pin_key + "pin_1").classList.add("is-invalid");
 
-		document.getElementById(pin_key+"pin_btn").setAttribute("disabled", "true");
+		document
+			.getElementById(pin_key + "pin_btn")
+			.setAttribute("disabled", "true");
 	} else {
-		document.getElementById(pin_key+"pin_1").classList.remove("is-invalid");
-		document.getElementById(pin_key+"pin_1").classList.add("is-valid");
+		document
+			.getElementById(pin_key + "pin_1")
+			.classList.remove("is-invalid");
+		document.getElementById(pin_key + "pin_1").classList.add("is-valid");
 
-		document.getElementById(pin_key+"pin_btn").removeAttribute("disabled");
+		document
+			.getElementById(pin_key + "pin_btn")
+			.removeAttribute("disabled");
 	}
 }
 
@@ -578,75 +584,81 @@ function check4StrongPin(pin_0, pin_1) {
 	}
 }
 
-document.getElementById("settings_close_btn").addEventListener("click", function () {
-	document.getElementById("replace_pin_0").value = "";
-	document.getElementById("replace_pin_1").value = "";
-	document.getElementById("replace_pin_1").classList.add("is-invalid");
-});
+document
+	.getElementById("settings_close_btn")
+	.addEventListener("click", function () {
+		document.getElementById("replace_pin_0").value = "";
+		document.getElementById("replace_pin_1").value = "";
+		document.getElementById("replace_pin_1").classList.add("is-invalid");
+	});
 
 document.getElementById("pin_btn").addEventListener("click", function () {
 	setCheckPIN();
 });
 
-document.getElementById("replace_pin_btn").addEventListener("click", function () {
-	setCheckPIN('replace_');
-});
+document
+	.getElementById("replace_pin_btn")
+	.addEventListener("click", function () {
+		setCheckPIN("replace_");
+	});
 
-function showToast(){
-	const toast = new bootstrap.Toast(document.getElementById('liveToast'));
+function showToast() {
+	const toast = new bootstrap.Toast(document.getElementById("liveToast"));
 	toast.show();
 }
 
-function setCheckPIN(pin_key = ""){
-	const HPIN = localStorage.getItem('hash_pin');
-	
-	if(!!!HPIN || pin_key === 'replace_'){
-		const pin_0 = document.getElementById(pin_key+"pin_0").value;
-		const pin_1 = document.getElementById(pin_key+"pin_1").value;
+function setCheckPIN(pin_key = "") {
+	const HPIN = localStorage.getItem("hash_pin");
 
-		if(pin_0 === pin_1){
+	if (!!!HPIN || pin_key === "replace_") {
+		const pin_0 = document.getElementById(pin_key + "pin_0").value;
+		const pin_1 = document.getElementById(pin_key + "pin_1").value;
+
+		if (pin_0 === pin_1) {
 			const shaObj = new jsSHA("SHA-256", "TEXT", { encoding: "UTF8" });
 			shaObj.update(pin_0);
 			const hash_pass = shaObj.getHash("HEX");
 
-			localStorage.setItem('hash_pin', hash_pass);
+			localStorage.setItem("hash_pin", hash_pass);
 			showToast();
-			if(pin_key != 'replace_'){
-				document.getElementById("offcanvasStart").classList.remove("show");
-				const r_offcanvas = new bootstrap.Offcanvas('#offcanvasRight');
+			if (pin_key != "replace_") {
+				document
+					.getElementById("offcanvasStart")
+					.classList.remove("show");
+				const r_offcanvas = new bootstrap.Offcanvas("#offcanvasRight");
 				r_offcanvas.show();
-			}else{
+			} else {
 				showToast();
 			}
 		}
-	}else{
+	} else {
 		const pin = document.getElementById("pin_2").value;
 
 		const shaObj = new jsSHA("SHA-256", "TEXT", { encoding: "UTF8" });
 		shaObj.update(pin);
 		const hash_pass = shaObj.getHash("HEX");
 
-		if(HPIN===hash_pass){
+		if (HPIN === hash_pass) {
 			document.getElementById("pin_2").value = "";
 			document.getElementById("pin_2").classList.remove("is-invalid");
 
 			document.getElementById("offcanvasStart").classList.remove("show");
-			const r_offcanvas = new bootstrap.Offcanvas('#offcanvasRight');
+			const r_offcanvas = new bootstrap.Offcanvas("#offcanvasRight");
 			r_offcanvas.show();
-		}else{
+		} else {
 			document.getElementById("pin_2").classList.add("is-invalid");
 		}
 	}
 }
 
-const nav_link_el = document.querySelectorAll('.nav-link');
-nav_link_el.forEach((el)=>{
+const nav_link_el = document.querySelectorAll(".nav-link");
+nav_link_el.forEach((el) => {
 	el.addEventListener("click", function () {
-		nav_link_el.forEach((elem)=>{
-			elem.classList.remove('active');
-			document.querySelector(elem.hash).classList.remove('show');
+		nav_link_el.forEach((elem) => {
+			elem.classList.remove("active");
+			document.querySelector(elem.hash).classList.remove("show");
 		});
 
-		el.classList.add('active');
+		el.classList.add("active");
 	});
 });
