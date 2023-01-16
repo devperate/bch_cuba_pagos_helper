@@ -264,7 +264,8 @@ document
 			amount_ok = true;
 		} else {
 			document.getElementById("qr-offcanvas-close").click();
-			alert("Cantidad a cobrar invalida");
+			showToast('Cantidad a cobrar invalida');
+			break;
 		}
 
 		const bch_recipient_address_input = document.getElementById(
@@ -288,7 +289,7 @@ document
 				);
 			}
 		} else {
-			alert("Revise la direccion de destino en la configuracion");
+			showToast("Revise la direccion de destino en la configuracion");
 		}
 	});
 
@@ -334,7 +335,7 @@ async function generateQrCode(bch_recipient_address, amount) {
 		height: screen_size,
 		type: "svg",
 		data: bch_recipient_address + `?amount=` + amount,
-		image: "bitcoin-cash-cuba.png",
+		image: "media/bitcoin-cash-cuba.png",
 		imageOptions: {
 			hideBackgroundDots: false,
 		},
@@ -384,7 +385,7 @@ async function generateQrCode(bch_recipient_address, amount) {
 		document
 			.getElementById("div_pago_completado")
 			.removeAttribute("hidden");
-		let audio = new Audio("Bitcoin Cash Logo SoundClip_320kbps.mp3");
+		let audio = new Audio("media/Bitcoin Cash Logo SoundClip_320kbps.mp3");
 		audio.play();
 		await electrum.disconnect();
 	});
@@ -602,7 +603,8 @@ document
 		setCheckPIN("replace_");
 	});
 
-function showToast() {
+function showToast(text) {
+	document.getElementById('text-toast').innerHTML = text;
 	const toast = new bootstrap.Toast(document.getElementById("liveToast"));
 	toast.show();
 }
@@ -620,7 +622,7 @@ function setCheckPIN(pin_key = "") {
 			const hash_pass = shaObj.getHash("HEX");
 
 			localStorage.setItem("hash_pin", hash_pass);
-			showToast();
+			showToast('Se ha guardado el nuevo PIN!');
 			if (pin_key != "replace_") {
 				document
 					.getElementById("offcanvasStart")
@@ -628,7 +630,7 @@ function setCheckPIN(pin_key = "") {
 				const r_offcanvas = new bootstrap.Offcanvas("#offcanvasRight");
 				r_offcanvas.show();
 			} else {
-				showToast();
+				showToast('Se ha actualizado el PIN!');
 			}
 		}
 	} else {

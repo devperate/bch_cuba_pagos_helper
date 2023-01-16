@@ -11,7 +11,7 @@
 	<title>BCH Payments Helper</title>
 
 	<!-- Bootstrap core CSS -->
-	<link href="bootstrap-nightshade.min.css" rel="stylesheet">
+	<link href="css/bootstrap-nightshade.min.css" rel="stylesheet">
 	<style>
 		.body-light {
 			background-color: rgba(0, 0, 0, .1);
@@ -23,12 +23,12 @@
 
 	<main class="container">
 		<div class="d-flex align-items-center p-3 my-3" style="display: flex; justify-content: flex-end">
-			<img src="kucoin-logo.png" alt="" width="21" height="20">
+			<img src="media/kucoin-logo.png" alt="" width="21" height="20">
 			<div class="lh-1">
 				<h6 class="h6 mb-0 lh-1" id="bch-kucoin-price">BCHUSD:</h6>
 			</div>
 			&nbsp;&nbsp;&nbsp;
-			<img src="eltoque-favicon.png" alt="" width="20" height="20">
+			<img src="media/eltoque-favicon.png" alt="" width="20" height="20">
 			<div class="lh-1">
 				<h6 class="h6 mb-0 lh-1" id="usd-eltoque-price">USDCUP:</h6>
 			</div>
@@ -36,7 +36,7 @@
 
 		<div class="row">
 			<div class="col text-center">
-				<img class="d-block mx-auto mb-4" src="bitcoin-cash-circle.svg" alt="" width="72" height="57">
+				<img class="d-block mx-auto mb-4" src="media/bitcoin-cash-circle.svg" alt="" width="72" height="57">
 				<div class="d-flex justify-content-center">
 					<h2 style="width: auto;">BCH Pagos Helper</h2>
 					<button id="settings_btn" type="button" class="btn btn-outline-secondary" data-bs-toggle="offcanvas"
@@ -219,7 +219,7 @@
 			</div>
 			<div id="div_pago_qr" class="offcanvas-body text-center">
 				<div class="body-light">
-					<img class="img-fluid" src="bch-main-logo.png" style="max-width: 300px;">
+					<img class="img-fluid" src="media/bch-main-logo.png" style="max-width: 300px;">
 				</div>
 				<hr class="border border-success opacity-75">
 				<div class="img-fluid" id="canvas-qr"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><h6>Generando QR!</h6></div>
@@ -229,7 +229,7 @@
 			</div>
 			<div id="div_pago_completado" class="offcanvas-body text-center" hidden="true">
 				<hr class="border border-success opacity-75">
-				<img class="img-fluid" src="Bitcoin_Cash_Logo_Animation_cropped.gif" style="max-width: 500px;">
+				<img class="img-fluid" src="media/Bitcoin_Cash_Logo_Animation_cropped.gif" style="max-width: 500px;">
 				<hr class="border border-success opacity-75">
 				<h2 style="width: auto;">Pago recibido! Gracias.</h2>
 				<div class="d-grid gap-2 col-4 mx-auto">
@@ -323,9 +323,7 @@
 				<small>ahora</small>
 				<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
 			</div>
-			<div class="toast-body">
-				Se ha guardado el nuevo PIN!
-			</div>
+			<div class="toast-body" id="text-toast"></div>
 			</div>
 		</div>
 
@@ -349,23 +347,19 @@
 				</svg>
 			</a>
 			<a id="donar" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-					class="bi bi-currency-bitcoin" viewBox="0 0 16 16">
-					<path
-						d="M5.5 13v1.25c0 .138.112.25.25.25h1a.25.25 0 0 0 .25-.25V13h.5v1.25c0 .138.112.25.25.25h1a.25.25 0 0 0 .25-.25V13h.084c1.992 0 3.416-1.033 3.416-2.82 0-1.502-1.007-2.323-2.186-2.44v-.088c.97-.242 1.683-.974 1.683-2.19C11.997 3.93 10.847 3 9.092 3H9V1.75a.25.25 0 0 0-.25-.25h-1a.25.25 0 0 0-.25.25V3h-.573V1.75a.25.25 0 0 0-.25-.25H5.75a.25.25 0 0 0-.25.25V3l-1.998.011a.25.25 0 0 0-.25.25v.989c0 .137.11.25.248.25l.755-.005a.75.75 0 0 1 .745.75v5.505a.75.75 0 0 1-.75.75l-.748.011a.25.25 0 0 0-.25.25v1c0 .138.112.25.25.25L5.5 13zm1.427-8.513h1.719c.906 0 1.438.498 1.438 1.312 0 .871-.575 1.362-1.877 1.362h-1.28V4.487zm0 4.051h1.84c1.137 0 1.756.58 1.756 1.524 0 .953-.626 1.45-2.158 1.45H6.927V8.539z" />
-				</svg>
+				donar
 			</a>
 		</ul>
 	</footer>
 
-	<script src="bootstrap.bundle.min.v5.1.3.js"></script>
-	<script src="darkmode.min.js"></script>
+	<script src="libs/bootstrap.bundle.min.v5.1.3.js"></script>
+	<script src="libs/darkmode.min.js"></script>
 	<script type="module" src="index.js"></script>
-	<script src="minimal-slp-wallet.min.module.v5.6.0.js"></script>
-	<script src="qr-code-styling.min.module.v1.6.0.js"></script>
-	<script src="umd.module.v2.0.7.js"></script>
-	<script src="node_modules/jssha/dist/sha256.js"></script>
-	<script src="node_modules_bundle.js"></script>
+	<script src="libs/minimal-slp-wallet.min.module.v5.6.0.js"></script>
+	<script src="libs/qr-code-styling.min.module.v1.6.0.js"></script>
+	<script src="libs/umd.module.v2.0.7.js"></script>
+	<script src="libs/sha256.js"></script>
+	<script src="libs/node_modules_bundle.js"></script>
 	<script>
 		document.querySelector("#darkmode-button").onclick = function (e) {
 			darkmode.toggleDarkMode();
@@ -375,7 +369,7 @@
 		const bch_donations_address = 'bitcoincash:qq0n0ea0pktcrures2f04deq8psk69nrfv52s7qku5';
 
 		document.getElementById("donate_address").innerText = bch_donations_address;
-		document.getElementById("donar_desde_wallet_button").setAttribute("href", bch_donations_address);
+		document.getElementById("donar_desde_wallet_button").setAttribute("href", 'https://'+bch_donations_address);
 		
 		let screen_size = 300;
 		if (window.innerWidth < window.innerHeight) {
@@ -401,7 +395,7 @@
 				height: screen_size,
 				type: "svg",
 				data: bch_donations_address,
-				image: "bitcoin-cash-cuba.png",
+				image: "media/bitcoin-cash-cuba.png",
 				imageOptions: {
 					hideBackgroundDots: false,
 				},
