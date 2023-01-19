@@ -264,8 +264,8 @@ document
 			amount_ok = true;
 		} else {
 			document.getElementById("qr-offcanvas-close").click();
-			showToast('Cantidad a cobrar invalida');
-			break;
+			showToast("Cantidad a cobrar invalida");
+			return;
 		}
 
 		const bch_recipient_address_input = document.getElementById(
@@ -275,11 +275,14 @@ document
 			"bch_recipient_address"
 		);
 
-		if (bch_recipient_address_LS === bch_recipient_address_input) {
+		if (bch_recipient_address_LS === bch_recipient_address_input && !!bch_recipient_address_LS && amount_ok) {
+			const offcanvas_payment = new bootstrap.Offcanvas("#offcanvasTop");
+			offcanvas_payment.show();
+
 			const is_valid = await bchjs.Util.validateAddress(
 				bch_recipient_address_input
 			);
-			if (is_valid.isvalid && amount_ok) {
+			if (is_valid.isvalid) {
 				const amount = usd_a_cobrar / bch_usd_price;
 
 				//console.log(Math.round(amount * 100000000));
@@ -287,6 +290,9 @@ document
 					bch_recipient_address_input,
 					Math.round(amount * 100000000) / 100000000
 				);
+			}else{
+				showToast("Revise el monto y la direccion de destino en la configuracion");
+				offcanvas_payment.hide();
 			}
 		} else {
 			showToast("Revise la direccion de destino en la configuracion");
@@ -604,7 +610,7 @@ document
 	});
 
 function showToast(text) {
-	document.getElementById('text-toast').innerHTML = text;
+	document.getElementById("text-toast").innerHTML = text;
 	const toast = new bootstrap.Toast(document.getElementById("liveToast"));
 	toast.show();
 }
@@ -622,7 +628,7 @@ function setCheckPIN(pin_key = "") {
 			const hash_pass = shaObj.getHash("HEX");
 
 			localStorage.setItem("hash_pin", hash_pass);
-			showToast('Se ha guardado el nuevo PIN!');
+			showToast("Se ha guardado el nuevo PIN!");
 			if (pin_key != "replace_") {
 				document
 					.getElementById("offcanvasStart")
@@ -630,7 +636,7 @@ function setCheckPIN(pin_key = "") {
 				const r_offcanvas = new bootstrap.Offcanvas("#offcanvasRight");
 				r_offcanvas.show();
 			} else {
-				showToast('Se ha actualizado el PIN!');
+				showToast("Se ha actualizado el PIN!");
 			}
 		}
 	} else {
