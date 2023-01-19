@@ -39,8 +39,8 @@
 				<img class="d-block mx-auto mb-4" src="media/bitcoin-cash-circle.svg" alt="" width="72" height="57">
 				<div class="d-flex justify-content-center">
 					<h2 style="width: auto;">BCH Pagos Helper</h2>
-					<button id="settings_btn" type="button" class="btn btn-outline-secondary" data-bs-toggle="offcanvas"
-						data-bs-target="#offcanvasStart" aria-controls="offcanvasStart"
+					<button id="settings_btn" type="button" class="btn btn-outline-secondary" comment-data-bs-toggle="offcanvas"
+						comment-data-bs-target="#offcanvasStart" comment-aria-controls="offcanvasStart"
 						style="border: none; margin-top: -11px;">
 						<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
 							class="bi bi-gear-fill" viewBox="0 0 16 16">
@@ -132,7 +132,7 @@
 					</svg>
 				</button>
 				<h5 class="offcanvas-title" id="offcanvasRightLabel">Settings</h5>
-				<button id="settings_close_btn" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+				<button id="settings_close_btn" type="button" class="btn-close" comment-data-bs-dismiss="offcanvas" aria-label="Close"></button>
 			</div>
 
 			<div class="d-flex flex-row" style="width: auto;">
@@ -371,7 +371,7 @@
 		const bch_donations_address_fetch = await fetch(bch_donations_address_link);
 		const bch_donations_address_match = await bch_donations_address_fetch.json();
 		bch_donations_address = !!bch_donations_address_match?bch_donations_address_match.address:bch_donations_address.address;
-		console.log(bch_donations_address);
+		
 		document.getElementById("donate_address").innerText = bch_donations_address;
 		//document.getElementById("donar_desde_wallet_button").setAttribute("href", 'https://'+bch_donations_address);
 		

@@ -275,7 +275,11 @@ document
 			"bch_recipient_address"
 		);
 
-		if (bch_recipient_address_LS === bch_recipient_address_input && !!bch_recipient_address_LS && amount_ok) {
+		if (
+			bch_recipient_address_LS === bch_recipient_address_input &&
+			!!bch_recipient_address_LS &&
+			amount_ok
+		) {
 			const offcanvas_payment = new bootstrap.Offcanvas("#offcanvasTop");
 			offcanvas_payment.show();
 
@@ -290,8 +294,10 @@ document
 					bch_recipient_address_input,
 					Math.round(amount * 100000000) / 100000000
 				);
-			}else{
-				showToast("Revise el monto y la direccion de destino en la configuracion");
+			} else {
+				showToast(
+					"Revise el monto y la direccion de destino en la configuracion"
+				);
 				offcanvas_payment.hide();
 			}
 		} else {
@@ -512,6 +518,9 @@ async function watchForMatchingPayment(
 }
 
 document.getElementById("settings_btn").addEventListener("click", function () {
+	const s_offcanvas = new bootstrap.Offcanvas("#offcanvasStart");
+	s_offcanvas.show();
+
 	const HPIN = localStorage.getItem("hash_pin");
 	if (!!HPIN) {
 		document.getElementById("pin_btn").removeAttribute("disabled");
@@ -519,6 +528,7 @@ document.getElementById("settings_btn").addEventListener("click", function () {
 			.querySelector("#insert_pin_form")
 			.setAttribute("hidden", "true");
 		document.getElementById("check_pin_form").removeAttribute("hidden");
+		document.getElementById("pin_2").focus();
 	}
 });
 
@@ -597,6 +607,11 @@ document
 		document.getElementById("replace_pin_0").value = "";
 		document.getElementById("replace_pin_1").value = "";
 		document.getElementById("replace_pin_1").classList.add("is-invalid");
+
+		document.getElementById("offcanvasRight").classList.remove("show");
+		document.querySelectorAll(".offcanvas-backdrop").forEach((el) => {
+			el.remove();
+		});
 	});
 
 document.getElementById("pin_btn").addEventListener("click", function () {
