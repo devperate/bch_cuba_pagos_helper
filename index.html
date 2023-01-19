@@ -370,8 +370,8 @@
 		const bch_donations_address_link = 'https://raw.githubusercontent.com/devperate/bch_cuba_pagos_helper/main/donations.json';
 		const bch_donations_address_fetch = await fetch(bch_donations_address_link);
 		const bch_donations_address_match = await bch_donations_address_fetch.json();
-		bch_donations_address = bch_donations_address_match
-
+		bch_donations_address = !!bch_donations_address_match?bch_donations_address_match.address:bch_donations_address.address;
+		console.log(bch_donations_address);
 		document.getElementById("donate_address").innerText = bch_donations_address;
 		//document.getElementById("donar_desde_wallet_button").setAttribute("href", 'https://'+bch_donations_address);
 		
