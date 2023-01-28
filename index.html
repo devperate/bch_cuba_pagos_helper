@@ -120,7 +120,7 @@
 			</div>
 		</div>
 
-		<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+		<div class="offcanvas offcanvas-end" data-bs-backdrop="false" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
 			style="width:100%;">
 			<div class="offcanvas-header body-light">
 				<button type="button" class="btn btn-secondary" id="darkmode-button">
@@ -158,7 +158,7 @@
 			<div class="offcanvas-body">
 				
 				<div class="collapse show" id="collapse0">
-					<div class="input-group mb-3">
+					<div class="input-group mb-3" style="width: 88% !important;">
 						<span class="input-group-text btn btn-primary" id="wallet_name_button">@</span>
 						<input id="wallet_name" type="text" class="form-control" placeholder="Nombre Wallet (Opcional)" aria-label="wallet_name" aria-describedby="wallet_name_button">
 					</div>
@@ -170,15 +170,15 @@
 									d="M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5V3zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a1.99 1.99 0 0 1-1-.268zM1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1z" />
 							</svg>
 						</button>
-						<div class="form-floating is-invalid" style="width: 88% !important;">
-							<textarea type="text" class="form-control is-invalid" id="bch_recipient_address"
-								placeholder="bitcoincash:..." required></textarea>
-							<label for="bch_recipient_address" class="form-label">Direccion de destino</label>
+						<div class="is-invalid" style="width: 88% !important;">
+							<textarea type="text" class="form-control is-invalid" id="bch_recipient_address" placeholder="Dirección Wallet (Obligatorio), formato => bitcoincash:qq0n..." required></textarea>
+							<!--<label for="bch_recipient_address" class="form-label">Direccion de destino</label>-->
 						</div>
 						<div id="feedback_div_label_bch_recipient_address" class="invalid-feedback">
 							Escribe una direccion de bitcoincash valida
 						</div>
 					</div>
+					<label id="address_type_for_address_input" hidden="true" style="float: right; color: #00bc8c;">cash address</label>
 				</div>
 
 				<div class="collapse text-center" id="collapse1">
@@ -210,7 +210,7 @@
 			</div>
 		</div>
 
-		<div class="offcanvas offcanvas-top" style="width:100%; height: 100%;" tabindex="-1" id="offcanvasTop"
+		<div class="offcanvas offcanvas-top" data-bs-backdrop="false" style="width:100%; height: 100%;" tabindex="-1" id="offcanvasTop"
 			aria-labelledby="offcanvasTopLabel">
 			<div class="offcanvas-header">
 				<h5 id="countdown_timer" class="offcanvas-title" id="offcanvasTopLabel">10:00</h5>
@@ -223,6 +223,12 @@
 				</div>
 				<hr class="border border-success opacity-75">
 				<div class="img-fluid" id="canvas-qr"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><h6>Generando QR!</h6></div>
+				<button id="cash_legacy_swapper_btn" type="button" data-address-type="cash" class="btn btn-success btn-sm" style="padding-top: 0px; padding-bottom: 0px; margin-top: 13px;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+					</svg>
+					Legacy Address
+				</button>
 				<hr class="border border-success opacity-75">
 				<h6 id="values_to_pay_info_text" style="width: auto;color:lightgray"></h6>
 				<h2 style="width: auto;">Escanea para pagar!</h2>
@@ -239,7 +245,7 @@
 			</div>
 		</div>
 
-		<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom"
+		<div class="offcanvas offcanvas-bottom" data-bs-backdrop="false" tabindex="-1" id="offcanvasBottom"
 			aria-labelledby="offcanvasBottomLabel" style="width:100%; height: 100%;">
 			<div class="offcanvas-header">
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-heart" viewBox="0 0 16 16">
@@ -264,7 +270,7 @@
 		<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasStart" data-bs-backdrop="false" aria-labelledby="offcanvasStartLabel" style="width:100%; height: 100%;">
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title" id="offcanvasStartLabel">PIN Anti Intrusos</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+				<button id="pin_auth_offcanvas" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 			</div>
 			<div class="offcanvas-body small text-center">
 				<form id="insert_pin_form" class="was-validated">

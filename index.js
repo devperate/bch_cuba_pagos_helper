@@ -141,6 +141,15 @@ function calcularCobro() {
 	const descuento = Number(document.getElementById("descuento").value) / 100;
 	const cup_a_cobrar = Number(document.getElementById("cup_a_cobrar").value);
 
+	if (!!!cup_a_cobrar || cup_a_cobrar <= 0) {
+		showToast("Cantidad a cobrar invalida");
+		return;
+	}
+	if (!!!usdt_cup_value || usdt_cup_value <= 0) {
+		showToast("Valor de USDT/CUP invalido");
+		return;
+	}
+
 	const usdt_a_cobrar =
 		cup_a_cobrar / usdt_cup_value -
 		(cup_a_cobrar / usdt_cup_value) * descuento;
@@ -155,6 +164,8 @@ function calcularCobro() {
 
 const bch_wallet = new SlpWallet();
 const bchjs = bch_wallet.bchjs;
+
+var address_type = localStorage.getItem("address_type");
 
 async function validateBchRecipientAddress() {
 	const bch_recipient_address = document.getElementById(
@@ -174,6 +185,30 @@ async function validateBchRecipientAddress() {
 				"bch_recipient_address",
 				bch_recipient_address
 			);
+			localStorage.setItem("address_type", address_type);
+
+			address_type = bchjs.Address.isCashAddress(bch_recipient_address)
+				? "cash"
+				: "legacy";
+			document
+				.getElementById("cash_legacy_swapper_btn")
+				.setAttribute(
+					"data-address-type",
+					address_type === "legacy" ? "cash" : "legacy"
+				);
+			document.getElementById(
+				"cash_legacy_swapper_btn"
+			).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+							<path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+						</svg>${address_type === "legacy" ? "Cash Address" : "Legacy Address"}`;
+
+			const shaObj = new jsSHA("SHA-256", "TEXT", { encoding: "UTF8" });
+			shaObj.update(bch_recipient_address);
+			const hash_bch_recipient_address = shaObj.getHash("HEX");
+			localStorage.setItem(
+				"bch_recipient_address_sha256sums",
+				hash_bch_recipient_address
+			);
 
 			document
 				.querySelector("#bch_recipient_address")
@@ -185,6 +220,13 @@ async function validateBchRecipientAddress() {
 				.querySelector("#feedback_div_label_bch_recipient_address")
 				.setAttribute("hidden", "true");
 			textAreaAdjust(bch_recipient_address_element);
+
+			document
+				.getElementById("address_type_for_address_input")
+				.removeAttribute("hidden");
+			document.getElementById(
+				"address_type_for_address_input"
+			).innerHTML = address_type + " address";
 		} else {
 			document
 				.querySelector("#bch_recipient_address")
@@ -196,9 +238,14 @@ async function validateBchRecipientAddress() {
 				.querySelector("#feedback_div_label_bch_recipient_address")
 				.removeAttribute("hidden");
 			textAreaAdjust(bch_recipient_address_element);
+
+			document
+				.getElementById("address_type_for_address_input")
+				.setAttribute("hidden", "true");
 		}
 	} else {
 		localStorage.removeItem("bch_recipient_address");
+		localStorage.removeItem("address_type");
 
 		document
 			.querySelector("#bch_recipient_address")
@@ -210,6 +257,10 @@ async function validateBchRecipientAddress() {
 			.querySelector("#feedback_div_label_bch_recipient_address")
 			.removeAttribute("hidden");
 		textAreaAdjust(bch_recipient_address_element);
+
+		document
+			.getElementById("address_type_for_address_input")
+			.setAttribute("hidden", "true");
 	}
 }
 
@@ -239,6 +290,33 @@ document
 	.getElementById("bch_recipient_address")
 	.addEventListener("change", validateBchRecipientAddress);
 
+let timer_input;
+document
+	.getElementById("bch_recipient_address")
+	.addEventListener("input", () => {
+		document
+			.querySelector("#bch_recipient_address")
+			.classList.remove("is-valid", "is-invalid");
+		document
+			.querySelector("#feedback_div_label_bch_recipient_address")
+			.setAttribute("hidden", "true");
+
+		textAreaAdjust(document.getElementById("bch_recipient_address"));
+
+		document
+			.getElementById("address_type_for_address_input")
+			.removeAttribute("hidden");
+		document.getElementById("address_type_for_address_input").innerHTML =
+			'<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+
+		clearTimeout(timer_input);
+		timer_input = null;
+
+		if (!timer_input) {
+			timer_input = setTimeout(validateBchRecipientAddress, 1995);
+		}
+	});
+
 document
 	.getElementById("validate_bch_recipient_address_button")
 	.addEventListener("click", validateBchRecipientAddress);
@@ -257,52 +335,91 @@ document
 	.getElementById("qr-cobrar")
 	.addEventListener("click", async function () {
 		calcularCobro();
+		validateQrGeneration(address_type === "legacy" ? 0 : 1);
+	});
 
-		const usd_a_cobrar = document.getElementById("usdt_a_cobrar").value;
-		let amount_ok = false;
-		if (!!usd_a_cobrar && usd_a_cobrar > 0) {
-			amount_ok = true;
-		} else {
-			document.getElementById("qr-offcanvas-close").click();
-			showToast("Cantidad a cobrar invalida");
-			return;
-		}
+var offcanvas_showing = "";
 
-		const bch_recipient_address_input = document.getElementById(
-			"bch_recipient_address"
-		).value;
-		const bch_recipient_address_LS = localStorage.getItem(
-			"bch_recipient_address"
-		);
+function validateQrGeneration(legacy = 0) {
+	const usd_a_cobrar = document.getElementById("usdt_a_cobrar").value;
+	let amount_ok = false;
+	if (!!usd_a_cobrar && usd_a_cobrar > 0) {
+		amount_ok = true;
+	} else {
+		document.getElementById("qr-offcanvas-close").click();
+		showToast("Cantidad a cobrar invalida");
+		return;
+	}
+
+	const bch_recipient_address_input = document.getElementById(
+		"bch_recipient_address"
+	).value;
+	const bch_recipient_address_LS = localStorage.getItem(
+		"bch_recipient_address"
+	);
+	const bch_recipient_address_sha256sums = localStorage.getItem(
+		"bch_recipient_address_sha256sums"
+	);
+
+	const shaObj = new jsSHA("SHA-256", "TEXT", { encoding: "UTF8" });
+	shaObj.update(bch_recipient_address_input);
+	const hash_bch_recipient_address_input = shaObj.getHash("HEX");
+
+	if (
+		bch_recipient_address_LS === bch_recipient_address_input &&
+		hash_bch_recipient_address_input === bch_recipient_address_sha256sums &&
+		!!bch_recipient_address_LS &&
+		amount_ok
+	) {
+		const offcanvas_payment = new bootstrap.Offcanvas("#offcanvasTop");
+		offcanvas_payment.show();
+
+		const amount = usd_a_cobrar / bch_usd_price;
+		//console.log(Math.round(amount * 100000000));
 
 		if (
-			bch_recipient_address_LS === bch_recipient_address_input &&
-			!!bch_recipient_address_LS &&
-			amount_ok
+			address_type === "cash" &&
+			bch_recipient_address_input.split(":").length == 1
 		) {
-			const offcanvas_payment = new bootstrap.Offcanvas("#offcanvasTop");
-			offcanvas_payment.show();
-
-			const is_valid = await bchjs.Util.validateAddress(
-				bch_recipient_address_input
+			generateQrCode(
+				getCashLegacyAddresses(
+					"bitcoincash:" + bch_recipient_address_input
+				)[legacy],
+				Math.round(amount * 100000000) / 100000000
 			);
-			if (is_valid.isvalid) {
-				const amount = usd_a_cobrar / bch_usd_price;
-
-				//console.log(Math.round(amount * 100000000));
-				generateQrCode(
-					bch_recipient_address_input,
-					Math.round(amount * 100000000) / 100000000
-				);
-			} else {
-				showToast(
-					"Revise el monto y la direccion de destino en la configuracion"
-				);
-				offcanvas_payment.hide();
-			}
 		} else {
-			showToast("Revise la direccion de destino en la configuracion");
+			generateQrCode(
+				getCashLegacyAddresses(bch_recipient_address_input)[legacy],
+				Math.round(amount * 100000000) / 100000000
+			);
 		}
+	} else {
+		showToast("Revise la direccion de destino en la configuracion");
+	}
+}
+
+function getCashLegacyAddresses(address) {
+	if (bchjs.Address.isCashAddress(address)) {
+		return [bchjs.Address.toLegacyAddress(address), address];
+	} else {
+		return [address, bchjs.Address.toCashAddress(address)];
+	}
+}
+
+document
+	.getElementById("cash_legacy_swapper_btn")
+	.addEventListener("click", async function () {
+		const data_address_type = this.getAttribute("data-address-type");
+		await resetPaymentScreen();
+		validateQrGeneration(data_address_type === "legacy" ? 0 : 1);
+		this.setAttribute(
+			"data-address-type",
+			data_address_type === "legacy" ? "cash" : "legacy"
+		);
+
+		this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+							<path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+						</svg>${data_address_type === "legacy" ? "Cash Address" : "Legacy Address"}`;
 	});
 
 document
@@ -340,7 +457,7 @@ async function generateQrCode(bch_recipient_address, amount) {
 	} else {
 		screen_size = window.innerHeight - window.innerHeight * 0.35;
 	}
-
+	//console.log(bch_recipient_address);
 	const color_scheme = localStorage.getItem("bs.prefers-color-scheme");
 	const qrCode = new QRCodeStyling({
 		width: screen_size,
@@ -517,9 +634,15 @@ async function watchForMatchingPayment(
 	);
 }
 
+const off_canvas_start = document.getElementById("offcanvasStart");
+off_canvas_start.addEventListener("shown.bs.offcanvas", (event) => {
+	document.getElementById("pin_2").focus();
+});
+
 document.getElementById("settings_btn").addEventListener("click", function () {
 	const s_offcanvas = new bootstrap.Offcanvas("#offcanvasStart");
 	s_offcanvas.show();
+	offcanvas_showing = s_offcanvas;
 
 	const HPIN = localStorage.getItem("hash_pin");
 	if (!!HPIN) {
@@ -528,7 +651,6 @@ document.getElementById("settings_btn").addEventListener("click", function () {
 			.querySelector("#insert_pin_form")
 			.setAttribute("hidden", "true");
 		document.getElementById("check_pin_form").removeAttribute("hidden");
-		document.getElementById("pin_2").focus();
 	}
 });
 
@@ -608,10 +730,7 @@ document
 		document.getElementById("replace_pin_1").value = "";
 		document.getElementById("replace_pin_1").classList.add("is-invalid");
 
-		document.getElementById("offcanvasRight").classList.remove("show");
-		document.querySelectorAll(".offcanvas-backdrop").forEach((el) => {
-			el.remove();
-		});
+		offcanvas_showing.hide();
 	});
 
 document.getElementById("pin_btn").addEventListener("click", function () {
@@ -645,11 +764,10 @@ function setCheckPIN(pin_key = "") {
 			localStorage.setItem("hash_pin", hash_pass);
 			showToast("Se ha guardado el nuevo PIN!");
 			if (pin_key != "replace_") {
-				document
-					.getElementById("offcanvasStart")
-					.classList.remove("show");
+				offcanvas_showing.hide();
 				const r_offcanvas = new bootstrap.Offcanvas("#offcanvasRight");
 				r_offcanvas.show();
+				offcanvas_showing = r_offcanvas;
 			} else {
 				showToast("Se ha actualizado el PIN!");
 			}
@@ -665,14 +783,21 @@ function setCheckPIN(pin_key = "") {
 			document.getElementById("pin_2").value = "";
 			document.getElementById("pin_2").classList.remove("is-invalid");
 
-			document.getElementById("offcanvasStart").classList.remove("show");
+			offcanvas_showing.hide();
 			const r_offcanvas = new bootstrap.Offcanvas("#offcanvasRight");
 			r_offcanvas.show();
+			offcanvas_showing = r_offcanvas;
 		} else {
 			document.getElementById("pin_2").classList.add("is-invalid");
 		}
 	}
 }
+
+document
+	.getElementById("pin_auth_offcanvas")
+	.addEventListener("click", function () {
+		document.getElementById("pin_2").value = "";
+	});
 
 const nav_link_el = document.querySelectorAll(".nav-link");
 nav_link_el.forEach((el) => {
